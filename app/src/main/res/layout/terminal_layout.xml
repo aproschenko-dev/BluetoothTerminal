@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    >
+
+    <EditText
+        android:id="@+id/commandBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@+id/buttonSend"
+        android:ems="10"
+        android:hint="@string/command_to_send"
+        android:drawableRight="@android:drawable/ic_menu_send"
+        android:inputType="text"
+        android:singleLine="true"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send"
+        android:id="@+id/buttonSend"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        />
+
+    <View
+        android:layout_width="fill_parent"
+        android:id="@+id/separator1"
+        android:layout_height="1dp"
+        android:layout_below="@id/buttonSend"
+        android:background="@android:color/darker_gray"
+        />
+
+    <TextView
+        android:id="@+id/commandsView"
+        android:textIsSelectable="true"
+        android:layout_marginLeft="10dp"
+        android:scrollbars = "vertical"
+        android:layout_below="@id/separator1"
+        android:layout_above="@id/separator2"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/buttonsPanel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAllCaps="false"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.00"
+            android:textAllCaps="false"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.00"
+            android:textAllCaps="false"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.00"
+            android:textAllCaps="false"
+            android:text="-" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.00"
+            android:textAllCaps="false"
+            android:text="-" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:id="@+id/separator2"
+        android:layout_height="1dp"
+        android:layout_above="@id/buttonsPanel"
+        android:background="@android:color/darker_gray"
+        />
+
+</RelativeLayout>

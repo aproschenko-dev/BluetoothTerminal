@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    tools:context=".MainActivity"
+    >
+    
+    <ListView
+        android:id="@+id/devicesView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnSearchDevices"
+        android:layout_below="@+id/searchBox"
+        android:background="@layout/bt_icon"
+        android:padding="3dp" />
+
+    <Button
+        android:id="@+id/btnSearchDevices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:drawableRight="@android:drawable/ic_menu_search"
+        android:text="@string/search_for_devices" />
+
+    <EditText
+        android:id="@+id/searchBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@+id/btnClearSearchBox"
+        android:drawableRight="@android:drawable/ic_menu_search"
+        android:ems="10"
+        android:hint="@string/device_name_to_search"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:singleLine="true"
+        />
+
+    <ImageButton
+        android:id="@+id/btnClearSearchBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="7dp"
+        android:layout_toLeftOf="@+id/btnFilter"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_notification_clear_all" />
+
+    <ImageButton
+        android:id="@+id/btnFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="7dp"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_preferences" />
+    
+</RelativeLayout>

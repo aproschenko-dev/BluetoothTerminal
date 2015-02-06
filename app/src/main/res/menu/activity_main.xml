@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/menu_enable_bt" android:title="@string/enable_bt" />
+    <group android:checkableBehavior="single" android:enabled="true">
+        <item android:id="@+id/menu_sort_by_name" android:title="@string/sort_by_name"></item>
+        <item android:id="@+id/menu_sort_by_type" android:title="@string/sort_by_type"></item>
+        <item android:id="@+id/menu_sort_by_bonded_state" android:title="@string/sort_by_bonded_state"></item>
+    </group>
+    <item android:id="@+id/menu_settings" android:title="@string/settings" />
+
+</menu>

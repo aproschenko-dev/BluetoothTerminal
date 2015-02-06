@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:title="@string/collect_devices_statistics"
+        android:key="collect_devices"
+        android:defaultValue="false"
+        android:summaryOn="@string/enabled"
+        android:summaryOff="@string/disabled"
+        />
+
+    <SwitchPreference
+        android:title="@string/show_datetime_label"
+        android:key="show_datetime_label"
+        android:defaultValue="false"
+        android:summaryOn="@string/enabled"
+        android:summaryOff="@string/disabled"
+        />
+
+    <PreferenceCategory
+        android:title="@string/colors">
+
+        <com.dev.aproschenko.arduinocontroller.colorpicker.ColorPickerPreference
+            android:key="bonded_device_color"
+            android:title="@string/bonded_device_background"
+            alphaSlider="true"
+            />
+
+        <com.dev.aproschenko.arduinocontroller.colorpicker.ColorPickerPreference
+            android:key="terminal_self_message"
+            android:title="@string/sent_message_color"
+            />
+
+        <com.dev.aproschenko.arduinocontroller.colorpicker.ColorPickerPreference
+            android:key="terminal_their_message"
+            android:title="@string/received_message_color"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/bluetooth_terminal">
+
+        <ListPreference
+            android:key="terminal_self_ending"
+            android:title="@string/sent_command_ending_char"
+            android:entries="@array/crlfentries"
+            android:entryValues="@array/crlfvalues"
+            />
+
+        <ListPreference
+            android:key="terminal_their_ending"
+            android:title="@string/received_command_ending_char"
+            android:entries="@array/crlfentries"
+            android:entryValues="@array/crlfvalues"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/menu_filter_av" android:title="@string/filter_av" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_computer" android:title="@string/filter_computer" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_health" android:title="@string/filter_health" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_misc" android:title="@string/filter_misc" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_imaging" android:title="@string/filter_imaging" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_networking" android:title="@string/filter_networking" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_peripheral" android:title="@string/filter_peripheral" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_phone" android:title="@string/filter_phone" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_toy" android:title="@string/filter_toy" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_wearable" android:title="@string/filter_wearable" android:checkable="true"/>
+    <item android:id="@+id/menu_filter_uncategorized" android:title="@string/filter_uncategorized" android:checkable="true"/>
+    <item android:id="@+id/menu_show_without_services" android:title="@string/no_services" android:checkable="true"/>
+
+</menu>
