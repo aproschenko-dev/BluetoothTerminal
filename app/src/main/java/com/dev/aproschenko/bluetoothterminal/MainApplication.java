@@ -36,7 +36,7 @@ public class MainApplication extends Application
 
     private SettingsData settings;
 
-    public static final String PREFS_FOLDER_NAME = "com.dev.aproschenko.arduinocontroller";
+    public static final String PREFS_FOLDER_NAME = "com.dev.aproschenko.bluetoothterminal";
     public static final String PREFS_DEVICES_FILE = "devices.txt";
 
     public static final String PREFS_KEY_TERMINAL_COMMAND = "terminalcommand";
@@ -80,8 +80,8 @@ public class MainApplication extends Application
     public int bondedBgColor = bondedBgColorDefault;
     public int sentMessageColor = sentMessageColorDefault;
     public int receivedMessageColor = receivedMessageColorDefault;
-    public int sentMessageEnding = LINE_ENDING_NONE;
-    public int receivedMessageEnding = LINE_ENDING_NONE;
+    public int sentMessageEnding = LINE_ENDING_CRLF;
+    public int receivedMessageEnding = LINE_ENDING_CRLF;
 
     private ArrayList<String> terminalCommands = new ArrayList<>();
     ArrayList<MacData> macs = new ArrayList<>();

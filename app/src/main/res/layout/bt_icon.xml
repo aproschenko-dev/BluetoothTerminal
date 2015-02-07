@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="bottom|right"
-    android:src="@drawable/bt_icon" />
+    android:src="@drawable/bt_icon"
+    android:layout_width="325px"
+    android:layout_height="512px"
+    />
 

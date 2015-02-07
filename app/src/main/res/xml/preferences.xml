@@ -20,18 +20,18 @@
     <PreferenceCategory
         android:title="@string/colors">
 
-        <com.dev.aproschenko.arduinocontroller.colorpicker.ColorPickerPreference
+        <com.dev.aproschenko.bluetoothterminal.colorpicker.ColorPickerPreference
             android:key="bonded_device_color"
             android:title="@string/bonded_device_background"
             alphaSlider="true"
             />
 
-        <com.dev.aproschenko.arduinocontroller.colorpicker.ColorPickerPreference
+        <com.dev.aproschenko.bluetoothterminal.colorpicker.ColorPickerPreference
             android:key="terminal_self_message"
             android:title="@string/sent_message_color"
             />
 
-        <com.dev.aproschenko.arduinocontroller.colorpicker.ColorPickerPreference
+        <com.dev.aproschenko.bluetoothterminal.colorpicker.ColorPickerPreference
             android:key="terminal_their_message"
             android:title="@string/received_message_color"
             />

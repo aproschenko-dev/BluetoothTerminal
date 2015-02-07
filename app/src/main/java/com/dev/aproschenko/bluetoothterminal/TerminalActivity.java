@@ -1,6 +1,8 @@
 package com.dev.aproschenko.bluetoothterminal;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +37,7 @@ public class TerminalActivity extends Activity
     public static final String NOT_SET_TEXT = "-";
 
     private String connectedDeviceName;
+    private String connectedDeviceAddress;
 
     private Button buttonSend;
     private EditText commandBox;
@@ -53,6 +56,85 @@ public class TerminalActivity extends Activity
     }
 
     @Override
+    public void onStart()
+    {
+        super.onStart();
+        if (D) Log.d(TAG, "++ ON START ++");
+
+        if (!getApp().getAdapter().isEnabled())
+        {
+            if (D) Log.d(TAG, "++ ON START BT disabled ++");
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, MainActivity.REQUEST_ENABLE_BT);
+        }
+        else // Otherwise, setup the chat session
+        {
+            if (D) Log.d(TAG, "++ ON START BT enabled ++");
+            if (getApp().getConnector() == null)
+            {
+                if (D) Log.d(TAG, "++ ON START setupConnector() ++");
+                setupConnector();
+            }
+            else
+            {
+                if (D) Log.d(TAG, "++ ON START ++, connector state " + getApp().getConnector().getState());
+            }
+        }
+    }
+
+    @Override
+    public synchronized void onResume()
+    {
+        super.onResume();
+        if (D) Log.d(TAG, "+ ON RESUME +");
+
+        if (getApp().getConnector() != null)
+        {
+            if (D) Log.d(TAG, "+ ON RESUME +, connector state " + getApp().getConnector().getState());
+        }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        if (D) Log.d(TAG, "--- ON DESTROY ---");
+
+        getApp().removeHandler(mHandler);
+
+        if (getApp().getConnector() != null)
+        {
+            if (D) Log.d(TAG, "--- ON DESTROY ---, connector state " + getApp().getConnector().getState());
+            getApp().getConnector().stop();
+            getApp().deleteConnector();
+        }
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        if (D) Log.d(TAG, "-- ON STOP --");
+
+        if (getApp().getConnector() != null)
+        {
+            if (D) Log.d(TAG, "-- ON STOP --, connector state " + getApp().getConnector().getState());
+        }
+    }
+
+    @Override
+    public synchronized void onPause()
+    {
+        super.onPause();
+        if (D) Log.d(TAG, "- ON PAUSE -");
+
+        if (getApp().getConnector() != null)
+        {
+            if (D) Log.d(TAG, "- ON PAUSE -, connector state " + getApp().getConnector().getState());
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -60,9 +142,12 @@ public class TerminalActivity extends Activity
 
         Intent intent = getIntent();
         connectedDeviceName = intent.getStringExtra(MainActivity.DEVICE_NAME);
+        connectedDeviceAddress = intent.getStringExtra(MainActivity.DEVICE_ADDRESS);
 
         setContentView(R.layout.terminal_layout);
-        setTitle(R.string.bluetooth_terminal);
+
+        String title = String.format(getResources().getString(R.string.is_not_connected), connectedDeviceName);
+        setTitle(title);
 
         buttonSend = (Button) findViewById(R.id.buttonSend);
         buttonSend.setOnClickListener(buttonSendClick);
@@ -96,6 +181,44 @@ public class TerminalActivity extends Activity
 
         getApp().getTerminalCommands().set(buttonIndex, command);
         savePreferences();
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (D) Log.d(TAG, "onActivityResult " + resultCode);
+
+        if (requestCode == MainActivity.REQUEST_ENABLE_BT)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                setupConnector();
+            }
+            else
+            {
+                Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    private void setupConnector()
+    {
+        if (D) Log.d(TAG, "setupConnector");
+
+        if (getApp().getConnector() != null)
+        {
+            if (D) Log.d(TAG, "setupConnector connector.stop(), state " + getApp().getConnector().getState());
+            getApp().getConnector().stop();
+            getApp().deleteConnector();
+        }
+
+        BluetoothDevice connectedDevice = getApp().getAdapter().getRemoteDevice(connectedDeviceAddress);
+
+        getApp().createConnector(connectedDevice.getAddress());
+        getApp().getConnector().getHandlers().add(mHandler);
+        getApp().getConnector().connect();
     }
 
     private void savePreferences()
@@ -148,14 +271,6 @@ public class TerminalActivity extends Activity
                 sendCommand(command);
         }
     };
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        if (D) Log.d(TAG, "--- ON DESTROY ---");
-        getApp().removeHandler(mHandler);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -295,6 +410,13 @@ public class TerminalActivity extends Activity
         }
     }
 
+    private void enableControls()
+    {
+        boolean isConnected = getApp().getConnectorState() == DeviceConnector.STATE_CONNECTED;
+        buttonSend.setEnabled(isConnected);
+        commandBox.setEnabled(isConnected);
+    }
+
     private final Handler mHandler = new Handler()
     {
         @Override
@@ -302,16 +424,50 @@ public class TerminalActivity extends Activity
         {
             switch (msg.what)
             {
+                case Messages.MESSAGE_STATE_CHANGE:
+
+                    if(D) Log.d(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+                    String messageText = "";
+
+                    switch (msg.arg1)
+                    {
+                        case DeviceConnector.STATE_CONNECTED:
+                            messageText = String.format(getResources().getString(R.string.connected_to), connectedDeviceName);
+                            setTitle(messageText);
+                            break;
+                        case DeviceConnector.STATE_CONNECTING:
+                            messageText = String.format(getResources().getString(R.string.connecting_to), connectedDeviceName);
+                            setTitle(messageText);
+                            break;
+                        case DeviceConnector.STATE_NONE:
+                            messageText = String.format(getResources().getString(R.string.is_not_connected), connectedDeviceName);
+                            setTitle(messageText);
+                            break;
+                    }
+
+                    enableControls();
+                    invalidateOptionsMenu();
+                    appendCommand(messageText, Messages.MESSAGE_WRITE);
+                    break;
+
+                case Messages.MESSAGE_DEVICE_NAME:
+                    Toast.makeText(getApplicationContext(), String.format(getResources().getString(R.string.successfully_connected_to), connectedDeviceName), Toast.LENGTH_SHORT).show();
+                    break;
+
                 case Messages.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     appendCommand(readMessage, Messages.MESSAGE_READ);
                     break;
 
+                case Messages.MESSAGE_CONNECTION_FAILED:
+                    Toast.makeText(getApplicationContext(), String.format(getResources().getString(R.string.unable_connect_to), connectedDeviceName), Toast.LENGTH_SHORT).show();
+                    break;
+
                 case Messages.MESSAGE_CONNECTION_LOST:
-                    buttonSend.setEnabled(false);
-                    commandBox.setEnabled(false);
+                    enableControls();
                     appendCommand(String.format(getResources().getString(R.string.connection_was_lost), connectedDeviceName), Messages.MESSAGE_READ);
+                    Toast.makeText(getApplicationContext(), String.format(getResources().getString(R.string.connection_was_lost), connectedDeviceName), Toast.LENGTH_SHORT).show();
                     break;
             }
         }
