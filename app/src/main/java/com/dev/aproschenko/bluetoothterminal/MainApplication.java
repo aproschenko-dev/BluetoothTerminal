@@ -273,8 +273,8 @@ public class MainApplication extends Application
         bondedBgColor = settings.getInt(PREFS_KEY_BONDED_COLOR, bondedBgColorDefault);
         sentMessageColor = settings.getInt(PREFS_KEY_SENT_COLOR, sentMessageColorDefault);
         receivedMessageColor = settings.getInt(PREFS_KEY_RECEIVED_COLOR, receivedMessageColorDefault);
-        sentMessageEnding = settings.getInt(PREFS_KEY_SENT_ENDING, LINE_ENDING_NONE);
-        receivedMessageEnding = settings.getInt(PREFS_KEY_RECEIVED_ENDING, LINE_ENDING_NONE);
+        sentMessageEnding = settings.getInt(PREFS_KEY_SENT_ENDING, LINE_ENDING_CRLF);
+        receivedMessageEnding = settings.getInt(PREFS_KEY_RECEIVED_ENDING, LINE_ENDING_CRLF);
     }
 
     public DeviceData getDeviceDataByAddress(String address)

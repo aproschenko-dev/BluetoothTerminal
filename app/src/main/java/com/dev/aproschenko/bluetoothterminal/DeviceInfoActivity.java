@@ -63,7 +63,7 @@ public class DeviceInfoActivity extends Activity
         final TextView deviceState = (TextView) findViewById(R.id.deviceState);
         deviceState.setText(bondedState);
         if (isBonded)
-            deviceState.setTextColor(Color.GREEN);
+            deviceState.setTextColor(0xff009900);
 
         String vendor = MacUtil.getVendorByAddress(deviceData.getAddress(), getApp().getMACs());
         final TextView deviceVendor = (TextView) findViewById(R.id.deviceVendor);

@@ -352,16 +352,16 @@ public class TerminalActivity extends Activity
         int commandIntColor = 0;
         String trimmedCommand = command.trim();
         if (trimmedCommand.equals("OK"))
-            commandIntColor = Color.GREEN;
+            commandIntColor = 0xff009900;
         if (trimmedCommand.equals("ERROR"))
-            commandIntColor = Color.RED;
+            commandIntColor = 0xff990000;
         String commandColor = "";
         if (commandIntColor != 0)
             commandColor = ColorPickerPreference.convertToRGB(commandIntColor);
 
         int intColor = messageType == Messages.MESSAGE_READ ? getApp().receivedMessageColor : getApp().sentMessageColor;
         String color = ColorPickerPreference.convertToRGB(intColor);
-        int postfixIntColor = Color.CYAN;
+        int postfixIntColor = Color.BLUE;
         String postfixColor = ColorPickerPreference.convertToRGB(postfixIntColor);
         String author = messageType == Messages.MESSAGE_READ ? connectedDeviceName : "ME";
         String date = getFormattedDateTime();
@@ -415,6 +415,11 @@ public class TerminalActivity extends Activity
         boolean isConnected = getApp().getConnectorState() == DeviceConnector.STATE_CONNECTED;
         buttonSend.setEnabled(isConnected);
         commandBox.setEnabled(isConnected);
+
+        for (Button btn : terminalButtons)
+        {
+            btn.setEnabled(isConnected);
+        }
     }
 
     private final Handler mHandler = new Handler()
